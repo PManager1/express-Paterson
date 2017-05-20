@@ -3,10 +3,17 @@ var express = require ('express');
 var app = express();
 var router = express.Router();
 
-var sendHello = function (req,res) {
-  res.send("Hello!");
+var prepareHello = function (req,res,next) {
+  req.hello = "Hello!2";
+  next();
 }
-router.route('/').get(sendHello);
+
+var sendHello = function (req,res) {
+  // res.send("Hello!");
+  res.send(req.hello);
+}
+
+router.route('/').get(prepareHello, sendHello);
 
 app.use(router);
 
